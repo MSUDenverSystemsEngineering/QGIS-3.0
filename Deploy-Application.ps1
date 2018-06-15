@@ -127,6 +127,8 @@ Try {
 		## <Perform Pre-Installation tasks here>
 		If (Test-Path -LiteralPath (Join-Path -Path $envSystemDrive -ChildPath "$envProgramFiles\QGIS 3.0\uninstall.exe") -PathType 'Leaf') {
 			Write-Log -Message 'QGIS will be uninstalled.' -Source $deployAppScriptFriendlyName
+			Remove-File -Path "$envCommonDesktop\GRASS GIS 7.4.0.lnk"
+			Remove-Item "$envCommonDesktop\QGIS 3.0" -Force -Recurse
 			$exitCode = Execute-Process -Path "$envProgramFiles\QGIS 3.0\uninstall.exe" -Parameters "/S" -WindowStyle "Hidden" -WaitForMsiExec -PassThru
 			If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 		}
@@ -186,6 +188,8 @@ Try {
 
 		# <Perform Uninstallation tasks here>
 		Execute-Process -Path "$envProgramFiles\QGIS 3.0\uninstall.exe" -Parameters "/S"
+		Remove-File -Path "$envCommonDesktop\GRASS GIS 7.4.0.lnk"
+		Remove-Item "$envCommonDesktop\QGIS 3.0" -Force -Recurse
 
 		##*===============================================
 		##* POST-UNINSTALLATION
